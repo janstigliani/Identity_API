@@ -6,7 +6,7 @@ namespace Identity_API.Model.Interfaces
 {
     public interface IRequestService
     {
-        public Task<List<RequestViewModel>> GetRequests();
+        public Task<List<Request>> GetRequests();
         public Task<RequestViewModel> GetRequestById(int id);
         public Task<List<RequestViewModel>> GetRequestByUser(int id);
         public Task<bool> UpdateRequest(int id, RequestDTOUpdate request);

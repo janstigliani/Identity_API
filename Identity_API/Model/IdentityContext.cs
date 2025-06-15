@@ -46,6 +46,11 @@ namespace Identity_Service.Model
                 .Property(u => u.email)
                 .IsRequired()
                 .HasMaxLength(100);
+            modelBuilder.Entity<User>()
+               .HasMany(r => r.userRoles)
+               .WithOne(ur => ur.User)
+               .HasForeignKey(ur => ur.UserId)
+               .HasConstraintName("UserRole_User_Fk");
 
             modelBuilder.Entity<Request>()
                 .HasKey(r => r.id);
@@ -71,6 +76,45 @@ namespace Identity_Service.Model
                 .WithMany(u => u.requests)
                 .HasForeignKey(r => r.userId)
                 .HasConstraintName("Request_User_Fk");
+
+            modelBuilder.Entity<Role>()
+                .HasKey(r => r.id);
+            modelBuilder.Entity<Role>()
+                .Property(r => r.id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("Role_Id");
+            modelBuilder.Entity<Role>()
+                .Property(r => r.name)
+                .IsRequired()
+                .HasMaxLength(50);
+            modelBuilder.Entity<Role>()
+                .Property(r => r.description)
+                .IsRequired()
+                .HasMaxLength(200);
+            modelBuilder.Entity<Role>()
+                .HasMany(r => r.userRoles)
+                .WithOne(ur => ur.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .HasConstraintName("UserRole_Role_Fk");
+
+            modelBuilder.Entity<UserRole>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+            modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.UserId)
+                .HasColumnName("User_Id");
+            modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.RoleId)
+                .HasColumnName("Role_Id");
+            modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.StartDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("Start_Time");
+            modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.EndDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("End_Time");
+
         }
     }
 }

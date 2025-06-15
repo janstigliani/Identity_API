@@ -14,10 +14,11 @@ namespace Identity_API.Services
         {
             _context = context;
         }
-        public async Task<List<RequestViewModel>> GetRequests()
+        public async Task<List<Request>> GetRequests()
         {
-            return await _context.Request.Select(u => new RequestViewModel
+            return await _context.Request.Select(u => new Request
             {
+                id = u.id,
                 creationDate = u.creationDate,
                 text = u.text,
                 userId = u.userId,
