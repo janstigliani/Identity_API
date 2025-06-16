@@ -99,5 +99,18 @@ namespace Identity_API.Controllers
             return Ok();
         }
 
+        [HttpGet("roles/{userId}")]
+        public async Task<IActionResult> GetPersonalRolesByUserId(int userId)
+        {
+            _logger.LogInformation("UserController.GetPersonalRolesByUserId called for User ID {UserId}", userId);
+            var result = await _userService.GetPersonalRolesByUserId(userId);
+            if (result == null || !result.Any())
+            {
+                _logger.LogInformation("No roles found for User ID {UserId}.", userId);
+                return NoContent();
+            }
+            _logger.LogInformation("Found {Count} roles for User ID {UserId}.", result.Count, userId);
+            return Ok(result);
+        }
     }
 }

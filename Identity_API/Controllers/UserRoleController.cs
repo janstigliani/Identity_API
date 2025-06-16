@@ -109,5 +109,18 @@ namespace Identity_API.Controllers
             return Ok();
         }
 
+        [HttpGet("valid")]
+        public async Task<IActionResult> GetValidUserRole()
+        {
+            _logger.LogInformation("UserRoleController.GetValidUserRole called");
+            var result = await _userRoleService.GetOnGoingUserRole();
+            if (result == null)
+            {
+                _logger.LogWarning("No Valid UserRole found.");
+                return NotFound();
+            }
+            _logger.LogInformation("Found {count} valid UserRoles.", result.Count);
+            return Ok(result);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Identity_API.Model.Interfaces
         public Task<bool> UpdateUser(int id,UserDTOUpdate user);
         public Task<int?> PostUsers(UserDTO user);
         public Task<int?> DeleteUsers(int id);
+        public Task<List<RoleViewModel>> GetPersonalRolesByUserId(int UserId);
     }
 }

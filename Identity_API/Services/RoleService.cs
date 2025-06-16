@@ -94,5 +94,39 @@ namespace Identity_API.Services
 
             return id;
         }
+
+        public async Task<List<UserViewModel>> GetUsersByRoleId(int Id)
+        {
+            var entityList = await _context.UserRoles
+                .Where(ur => ur.RoleId == Id).ToListAsync();
+
+            if (entityList.Count == 0)
+            {
+                return null;
+            }
+
+            var result = new List<UserViewModel>();
+
+            foreach (var entity in entityList)
+            {
+                var user = await _context.User.FindAsync(entity.UserId);
+
+                if (user == null)
+                {
+                    continue;
+                }
+
+                UserViewModel newUser = new UserViewModel
+                {
+                    name = user.name,
+                    surname = user.surname,
+                    email = user.email
+                };
+
+                result.Add(newUser);
+            }
+
+            return result;
+        }
     }
 }

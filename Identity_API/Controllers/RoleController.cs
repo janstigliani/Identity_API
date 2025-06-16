@@ -1,5 +1,6 @@
 ﻿using Identity_API.Model.DTO;
 using Identity_API.Model.Interfaces;
+using Identity_API.Services;
 using Identity_Service.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -100,5 +101,18 @@ namespace Identity_API.Controllers
             return Ok();
         }
 
+        [HttpGet("users/{id}")]
+        public async Task<IActionResult> GetUsersByRoleId(int id)
+        {
+            _logger.LogInformation("UserRoleController.GetUsersByRoleId called");
+            var result = await _roleService.GetUsersByRoleId(id);
+            if (result == null || !result.Any())
+            {
+                _logger.LogInformation("No users found for Role ID {Id}.", id);
+                return NoContent();
+            }
+            _logger.LogInformation("Found {Count} users for Role ID {Id}.", result.Count, id);
+            return Ok(result);
+        }
     }
 }

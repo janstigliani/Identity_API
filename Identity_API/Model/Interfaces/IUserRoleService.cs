@@ -11,5 +11,6 @@ namespace Identity_API.Model.Interfaces
         public Task<bool> UpdateUserRole(int id,UserRoleDTOUpdate userRole);
         public Task<int?> PostUserRole(UserRoleDTO userRole);
         public Task<int?> DeleteUserRole(int id);
+        public Task<List<UserRoleViewModel>> GetOnGoingUserRole();
     }
 }

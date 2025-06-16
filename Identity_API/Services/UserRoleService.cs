@@ -115,5 +115,16 @@ namespace Identity_API.Services
 
             return id;
         }
+
+        public async Task<List<UserRoleViewModel>> GetOnGoingUserRole()
+        {
+            return await _context.UserRoles.Where(ur => ur.EndDate == null).Select( ur => new UserRoleViewModel
+                {
+                UserId = ur.UserId,
+                RoleId = ur.RoleId,
+                StartDate = ur.StartDate,
+                EndDate = ur.EndDate,
+            }).ToListAsync();
+        }
     }
 }
