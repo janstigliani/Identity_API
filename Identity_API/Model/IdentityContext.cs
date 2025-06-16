@@ -99,8 +99,8 @@ namespace Identity_Service.Model
                 .HasForeignKey(ur => ur.RoleId)
                 .HasConstraintName("UserRole_Role_Fk");
 
-            modelBuilder.Entity<UserRole>()
-                .HasKey(ur => new { ur.UserId, ur.RoleId });
+            //modelBuilder.Entity<UserRole>()
+            //    .HasKey(ur => new { ur.UserId, ur.RoleId });
             modelBuilder.Entity<UserRole>()
                 .Property(ur => ur.UserId)
                 .HasColumnName("User_Id");
@@ -108,17 +108,19 @@ namespace Identity_Service.Model
                 .Property(ur => ur.RoleId)
                 .HasColumnName("Role_Id");
             modelBuilder.Entity<UserRole>()
+               .HasKey(ur => ur.Id);
+            modelBuilder.Entity<UserRole>()
                 .Property(ur => ur.Id)
-                .HasColumnName("User_Role")
+                .HasColumnName("User_Role_Id")
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<UserRole>()
                 .Property(ur => ur.StartDate)
                 .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
+                //.HasColumnType("timestamp without time zone")
                 .HasColumnName("Start_Time");
             modelBuilder.Entity<UserRole>()
                 .Property(ur => ur.EndDate)
-                .HasColumnType("timestamp without time zone")
+                //.HasColumnType("timestamp without time zone")
                 .HasColumnName("End_Time");
         }
     }

@@ -40,6 +40,10 @@ namespace Identity_API
 
             builder.Services.AddScoped<IRequestService, RequestService>();
 
+            builder.Services.AddScoped<IRoleService, RoleService>();
+
+            builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+
             var app = builder.Build();
 
             app.UseSwagger(c =>

@@ -9,6 +9,6 @@ namespace Identity_API.Model
         public DateTime creationDate { get; set; }
         public int userId { get; set; }
         public string text { get; set; }
-        public User user { get; set; }
+        public virtual User user { get; set; }
     }
 }

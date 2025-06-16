@@ -9,7 +9,7 @@ namespace Identity_API.Model
         public int RoleId { get; set; }
         public DateTime StartDate { get; set; } 
         public DateTime? EndDate { get; set; }
-        public User User { get; set; }
-        public Role Role { get; set; }
+        public virtual User User { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

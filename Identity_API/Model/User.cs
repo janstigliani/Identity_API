@@ -14,7 +14,7 @@ namespace Identity_Service.Model
         public string surname { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public List<Request> requests { get; set; }
-        public List<UserRole> userRoles { get; set; }
+        public virtual ICollection<Request> requests { get; set; }
+        public virtual ICollection<UserRole> userRoles { get; set; }
     }
 }

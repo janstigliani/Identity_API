@@ -16,61 +16,6 @@ namespace Identity_API.Services
             _context = context;
         }
 
-        public async Task<bool> UpdateRole(int id, RoleDTOUpdate role)
-        {
-            var entity = await _context.Role.FindAsync(id);
-            if (entity == null)
-            {
-                return false;
-            }
-            if (!string.IsNullOrWhiteSpace(role.name))
-            {
-                entity.name = role.name;
-            }
-
-            _context.Entry(entity).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<int?> PostRole(RoleDTO role)
-        {
-            if (role == null)
-            {
-                return null;
-            }
-
-            var newRole = new Role
-            {
-                description = role.description,
-                name = role.name
-            };
-
-            _context.Role.Add(newRole);
-
-            await _context.SaveChangesAsync();
-
-            return newRole.id;
-        }
-
-        public async Task<int?> DeleteRole(int id)
-        {
-            var entity = _context.Role.FindAsync(id);
-
-            if (entity == null)
-            {
-                return null;
-            }
-
-            _context.Role.Remove(await entity);
-
-            await _context.SaveChangesAsync();
-
-            return id;
-        }
-
         public async Task<List<UserRole>> GetAllUserRoles()
         {
             return await _context.UserRoles.Select(ur => new UserRole
@@ -107,9 +52,13 @@ namespace Identity_API.Services
             {
                 return false;
             }
-            if (userRole.StartDate.HasValue)
+            //if (userRole.StartDate.HasValue)
+            //{
+            //    entity.StartDate = DateTime.UtcNow;
+            //}
+            if (userRole.EndDate.HasValue)
             {
-                entity.StartDate = userRole.StartDate;
+                entity.EndDate = userRole.EndDate;
             }
 
             _context.Entry(entity).State = EntityState.Modified;
@@ -119,14 +68,52 @@ namespace Identity_API.Services
             return true;
         }
 
-        public Task<int?> PostUserRole(UserRoleDTO userRole)
+        public async Task<int?> PostUserRole(UserRoleDTO userRole)
         {
-            throw new NotImplementedException();
+            if (userRole == null)
+            {
+                return null;
+            }
+
+            User user = await _context.User.FindAsync(userRole.UserId);
+            if ( user == null )
+            {
+                return -1;
+            }
+
+            Role role = await _context.Role.FindAsync(userRole.RoleId);
+            if (role == null)
+            {
+                return -2;
+            }
+
+            var newUserRole = new UserRole
+            {
+                UserId = userRole.UserId,
+                RoleId = userRole.RoleId,
+            };
+
+            _context.UserRoles.Add(newUserRole);
+
+            await _context.SaveChangesAsync();
+
+            return newUserRole.Id;
         }
 
-        public Task<int?> DeleteUserRole(int id)
+        public async Task<int?> DeleteUserRole(int id)
         {
-            throw new NotImplementedException();
+            var entity = _context.UserRoles.FindAsync(id);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            _context.UserRoles.Remove(await entity);
+
+            await _context.SaveChangesAsync();
+
+            return id;
         }
     }
 }
