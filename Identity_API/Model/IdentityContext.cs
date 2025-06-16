@@ -13,6 +13,8 @@ namespace Identity_Service.Model
     {
         public DbSet<User> User { get; set; }
         public DbSet<Request> Request { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }    
 
         public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
@@ -106,6 +108,10 @@ namespace Identity_Service.Model
                 .Property(ur => ur.RoleId)
                 .HasColumnName("Role_Id");
             modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.Id)
+                .HasColumnName("User_Role")
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<UserRole>()
                 .Property(ur => ur.StartDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
@@ -114,7 +120,6 @@ namespace Identity_Service.Model
                 .Property(ur => ur.EndDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("End_Time");
-
         }
     }
 }
